@@ -28,8 +28,9 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
 
     MyDB db; //Haven't implemented db yet
     EditText searchFoods; //SearchFood is the plaintext where user enters food name
-    ListView listVieW; //Scrollable list to show all food items
+    public static ListView listView; //Scrollable list to show all food items
     Button btnAdd; //Adds food from plaintext into listView
+    Button btnScan;
     ArrayAdapter<String> arrayAdapter;
 
     public ArrayList<String> foodList = new ArrayList<>();
@@ -40,15 +41,25 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         setContentView(R.layout.activity_add_food);
 
         searchFoods = findViewById(R.id.SearchFoods);
-        listVieW = findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
         btnAdd = findViewById(R.id.btnAdd);
+        btnScan = findViewById(R.id.btnScan);
         db = new MyDB(this, MyDB.DB_NAME, null, 1);
 
+        // adds user input to listView
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String s = searchFoods.getText().toString();
                 inputListView(s);
+            }
+        });
+
+        // listener for scanning button
+        btnScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), scanCode.class));
             }
         });
 
@@ -67,8 +78,8 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         });
     }
 
+    //Helper function to input a non empty plaintext string to listview in alphabetical order
     public void inputListView (String input){
-        //Helper function to input a non empty plaintext string to listview in alphabetical order
         if (input.equals("")){
             return;
         }
@@ -76,7 +87,7 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         searchFoods.getText().clear();
         Collections.sort(foodList);
         arrayAdapter = new ArrayAdapter<>(addFood.this, android.R.layout.simple_list_item_1, foodList);
-        listVieW.setAdapter(arrayAdapter);
+        listView.setAdapter(arrayAdapter);
     }
 
 
