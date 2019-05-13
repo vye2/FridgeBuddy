@@ -1,7 +1,6 @@
 package com.example.fridgebuddy;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,20 +8,20 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity{
 
-    SharedPreferences sh;
     Button addFood;
     Button recipeMe;
-
+    static MyDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sh = getSharedPreferences("myPrefs", MODE_PRIVATE);
 
         addFood = findViewById(R.id.StorageBtn);
         recipeMe = findViewById(R.id.RecipeMeButton);
-        
+        db = new MyDB(this);
+
+
         addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +63,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        this.deleteDatabase(db.getDatabaseName());
     }
 
 

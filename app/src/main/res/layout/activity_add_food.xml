@@ -17,14 +17,15 @@
         android:layout_marginRight="8dp"
         android:gravity="center_horizontal"
         android:text="@string/titleAddItems"
+        android:textColor="@android:color/black"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/SearchFoods"
+        app:layout_constraintBottom_toTopOf="@+id/editSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/SearchFoods"
+        android:id="@+id/editSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -32,8 +33,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:ems="10"
+        android:hint="Enter food name (e.g apple, rice)"
         android:importantForAutofill="no"
-        android:hint="@string/hintSearch"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,8 +63,9 @@
         android:layout_marginRight="8dp"
         android:text="@string/btnAdd"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SearchFoods" />
+        app:layout_constraintTop_toBottomOf="@+id/editAmount" />
 
     <ListView
         android:id="@+id/listView"
@@ -77,5 +79,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnScan" />
+
+    <EditText
+        android:id="@+id/editAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="Enter amount (e.g 50g, 1 cup, 4 Liters)"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editSearch" />
 
 </android.support.constraint.ConstraintLayout>

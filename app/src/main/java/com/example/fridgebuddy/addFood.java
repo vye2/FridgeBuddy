@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,21 +13,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Date;
 
 public class addFood extends AppCompatActivity implements View.OnKeyListener{
 
 
-    MyDB db; //Haven't implemented db yet
-    EditText searchFoods; //SearchFood is the plaintext where user enters food name
-    //public static ListView listView; //Scrollable list to show all food items
+    EditText editSearch; //editSearch is the plaintext where user enters food name
+    EditText editAmount;
     ListView listView;
     Button btnAdd; //Adds food from plaintext into listView
     Button btnScan;
@@ -41,18 +35,24 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_food);
 
-        searchFoods = findViewById(R.id.SearchFoods);
+        editSearch = findViewById(R.id.editSearch);
+        editAmount = findViewById(R.id.editAmount);
         listView = findViewById(R.id.listView);
         btnAdd = findViewById(R.id.btnAdd);
         btnScan = findViewById(R.id.btnScan);
-        db = new MyDB(this, MyDB.DB_NAME, null, 1);
+
+        foodList = MainActivity.db.getAllFoods(); //On create, display list view of sorted foods.
+        Collections.sort(foodList);
+        arrayAdapter = new ArrayAdapter<>(addFood.this, android.R.layout.simple_list_item_1, foodList);
+        listView.setAdapter(arrayAdapter);
 
         // adds user input to listView
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String s = searchFoods.getText().toString();
-                inputListView(s);
+                String s = editSearch.getText().toString();
+                String t = editAmount.getText().toString();
+                inputListView(s, t);
             }
         });
 
@@ -64,28 +64,34 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
             }
         });
 
-        searchFoods.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editAmount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             //This function listens to when user hits the "check mark" button
             //and inputs plaintext to listview
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                     //do what you want on the press of 'done'
-                    String s = searchFoods.getText().toString();
-                    inputListView(s);
+                    String s = editSearch.getText().toString();
+                    String t = editAmount.getText().toString();
+                    inputListView(s, t);
                     return true;
                 }
                 return false;
             }
         });
+
     }
 
     //Helper function to input a non empty plaintext string to listview in alphabetical order
-    public void inputListView (String input){
-        if (input.equals("")){
+    public void inputListView (String foodName, String amountFood){
+        //Helper function to input a non empty plaintext string to listview in alphabetical order
+        if (foodName.equals("") && amountFood.equals("")){
+            Toast.makeText(this, "Please enter a food and amount.", Toast.LENGTH_LONG).show();
             return;
         }
-        foodList.add(input);
-        searchFoods.getText().clear();
+        MainActivity.db.addFood(foodName, amountFood);
+        editSearch.getText().clear();
+        editAmount.getText().clear();
+        foodList = MainActivity.db.getAllFoods();
         Collections.sort(foodList);
         arrayAdapter = new ArrayAdapter<>(addFood.this, android.R.layout.simple_list_item_1, foodList);
         listView.setAdapter(arrayAdapter);
