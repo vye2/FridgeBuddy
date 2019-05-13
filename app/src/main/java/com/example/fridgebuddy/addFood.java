@@ -28,7 +28,8 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
 
     MyDB db; //Haven't implemented db yet
     EditText searchFoods; //SearchFood is the plaintext where user enters food name
-    public static ListView listView; //Scrollable list to show all food items
+    //public static ListView listView; //Scrollable list to show all food items
+    ListView listView;
     Button btnAdd; //Adds food from plaintext into listView
     Button btnScan;
     ArrayAdapter<String> arrayAdapter;
