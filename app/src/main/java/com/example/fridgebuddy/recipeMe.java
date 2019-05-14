@@ -37,6 +37,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class recipeMe extends AppCompatActivity {
+
+    MyDB db;
     TextView RecipeTitle;
     TextView Instructions;
     ListView IngredList;
@@ -56,11 +58,8 @@ public class recipeMe extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_me);
-        RecipeTitle = findViewById(R.id.RecipeTitle);
-        Instructions = findViewById(R.id.Instructions);
-        IngredList = findViewById(R.id.IngredList);
-        btnRandomRecipe = findViewById(R.id.BtnRandom);
-        btnRecipeMe = findViewById(R.id.BtnRecipeMe);
+
+        init();
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -82,7 +81,7 @@ public class recipeMe extends AppCompatActivity {
 
     public void relatedRecipeID(){
         String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=1&ranking=1&ignorePantry=true&ingredients=";
-        url = url + MainActivity.db.getIngredList();
+        url = url + db.getIngredList();
         System.out.println(url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
                 //JsonObjectRequest request = new JSONArrayRequest(Request.Method.GET,
@@ -214,5 +213,14 @@ public class recipeMe extends AppCompatActivity {
             }
         };
         requestQueue.add(request);
+    }
+
+    private void init() {
+        db = MyDB.getInstance(this);
+        RecipeTitle = findViewById(R.id.RecipeTitle);
+        Instructions = findViewById(R.id.Instructions);
+        IngredList = findViewById(R.id.IngredList);
+        btnRandomRecipe = findViewById(R.id.BtnRandom);
+        btnRecipeMe = findViewById(R.id.BtnRecipeMe);
     }
 }

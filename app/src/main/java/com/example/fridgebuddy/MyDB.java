@@ -12,6 +12,8 @@ import java.util.Date;
 
 public class MyDB extends SQLiteOpenHelper {
 
+    private static MyDB sInstance;
+
     private Context context;
     private static String DB_NAME = "FOOD_DB";
     private static String TABLE_FOOD = "FOOD_TABLE";
@@ -44,6 +46,20 @@ public class MyDB extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Ensures only one MyDB will exist at any given time. if sInstance has not been initialized
+     * one will be created. If one has already been created then it'll be returned.
+     */
+    public static synchronized MyDB getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new MyDB(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
+    /**
+     * Inserts a food item into the db
+     */
     public void addFood(String foodName, String amountStored){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -56,6 +72,9 @@ public class MyDB extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Returns all data in the db
+     */
     public ArrayList<String> getAllFoods(){
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<String> foodList = new ArrayList<>();
@@ -70,6 +89,9 @@ public class MyDB extends SQLiteOpenHelper {
         return foodList;
     }
 
+    /**
+     * Return a String list of all ingredients
+     */
     public String getIngredList(){
         SQLiteDatabase db = getReadableDatabase();
         String ingredList = "";

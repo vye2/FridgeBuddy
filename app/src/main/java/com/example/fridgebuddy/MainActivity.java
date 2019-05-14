@@ -8,19 +8,16 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity{
 
+    MyDB db;
     Button addFood;
     Button recipeMe;
-    static MyDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        addFood = findViewById(R.id.StorageBtn);
-        recipeMe = findViewById(R.id.RecipeMeButton);
-        db = new MyDB(this);
-
+        init();
 
         addFood.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,5 +63,10 @@ public class MainActivity extends AppCompatActivity{
         this.deleteDatabase(db.getDatabaseName());
     }
 
+    private void init() {
+        db = MyDB.getInstance(this);
+        addFood = findViewById(R.id.StorageBtn);
+        recipeMe = findViewById(R.id.RecipeMeButton);
+    }
 
 }

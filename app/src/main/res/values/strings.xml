@@ -6,4 +6,5 @@
     <string name="hintSearch">Search</string>
     <string name="btnAdd">Add</string>
     <string name="btnScan">Scan</string>
+    <string name="scanPrompt">Scan a product\'s barcode</string>
 </resources>
