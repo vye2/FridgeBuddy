@@ -70,4 +70,17 @@ public class MyDB extends SQLiteOpenHelper {
         return foodList;
     }
 
+    public String getIngredList(){
+        SQLiteDatabase db = getReadableDatabase();
+        String ingredList = "";
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FOOD, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            ingredList = ingredList + cursor.getString(1) + ",";
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return ingredList;
+    }
+
 }
