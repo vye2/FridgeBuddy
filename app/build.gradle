@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpmime:4.5.6'
     implementation 'com.android.volley:volley:1.1.0'
     //implementation 'org.json:json:20140107'
-    implementation 'com.google.android.gms:play-services-auth:16.0.1' // do i really need this though, what if we didn't bother with auth for camera
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    // do i really need this though, what if we didn't bother with auth for camera
     implementation 'me.dm7.barcodescanner:zxing:1.9'
 }

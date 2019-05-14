@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity{
     MyDB db;
     Button addFood;
     Button recipeMe;
+    Button NotifButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,15 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        NotifButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Notifications.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -67,6 +77,7 @@ public class MainActivity extends AppCompatActivity{
         db = MyDB.getInstance(this);
         addFood = findViewById(R.id.StorageBtn);
         recipeMe = findViewById(R.id.RecipeMeButton);
+        NotifButton = findViewById(R.id.NotifButton);
     }
 
 }
