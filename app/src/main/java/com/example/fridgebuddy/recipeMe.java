@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -80,7 +81,7 @@ public class recipeMe extends AppCompatActivity {
     }
 
     public void relatedRecipeID(){
-        String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=1&ranking=1&ignorePantry=true&ingredients=";
+        String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=5&ranking=1&ignorePantry=true&ingredients=";
         url = url + db.getIngredList();
         System.out.println(url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
@@ -90,7 +91,9 @@ public class recipeMe extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            JSONObject recipe = response.getJSONObject(0);
+                            Random rand = new Random();
+                            int val = rand.nextInt(5);
+                            JSONObject recipe = response.getJSONObject(val);
                             int returnedID = recipe.getInt("id");
                             getRecipe(returnedID);
                             System.out.println("Test: " + returnedID);
