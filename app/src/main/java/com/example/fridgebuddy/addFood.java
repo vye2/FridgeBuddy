@@ -57,7 +57,7 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
                 ActivityCompat.requestPermissions(addFood.this,
                         new String[]{Manifest.permission.CAMERA},
                         1);
-                startActivity(new Intent(getApplicationContext(), scanCode.class)); // try manually placing addFood.this
+                startActivity(new Intent(getApplicationContext(), ScanCode.class)); // try manually placing addFood.this
 
             }
         });

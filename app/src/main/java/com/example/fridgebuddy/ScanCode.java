@@ -18,7 +18,7 @@ import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class scanCode extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class ScanCode extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private ZXingScannerView zXingScannerView;
 
