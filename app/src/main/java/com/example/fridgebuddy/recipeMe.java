@@ -53,7 +53,6 @@ public class recipeMe extends AppCompatActivity {
 
     static public ArrayList<String> ingredientsList = new ArrayList<>();
 
-    Lock lock = new ReentrantLock();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
