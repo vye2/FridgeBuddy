@@ -50,7 +50,6 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
 
         init();
         requestQueue = Volley.newRequestQueue(this);
-
     }
 
     @Override
@@ -72,8 +71,12 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
         zXingScannerView.resumeCameraPreview(this);
     }
 
-    public void getFood(int UPCode){    /////////////call this function with UPC code. Should add food name and food amount to db.
-        String url = "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + String.valueOf(UPCode);
+    /**
+     * Scans a target product's UPC and inputs gathered data into the db
+     * @param UPC the target product's Universal Product Code
+     */
+    public void getFood(int UPC){    /////////////call this function with UPC code. Should add food name and food amount to db.
+        String url = "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + String.valueOf(UPC);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 url, null,
                 new Response.Listener<JSONObject>() {
