@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class MyDB extends SQLiteOpenHelper {
@@ -90,7 +91,25 @@ public class MyDB extends SQLiteOpenHelper {
     }
 
     /**
-     * Return a String list of all ingredients
+     * Return a String list of all ingredients in ArrayList
+     */
+    public ArrayList<String> getIngredListArr(){
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<String> foodList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FOOD, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            String currentFood = cursor.getString(1);
+            foodList.add(currentFood);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        Collections.sort(foodList);
+        return foodList;
+    }
+
+    /**
+     * Return a String list of all ingredients separated by commas.
      */
     public String getIngredList(){
         SQLiteDatabase db = getReadableDatabase();

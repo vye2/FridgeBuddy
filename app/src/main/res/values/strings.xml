@@ -2,9 +2,9 @@
     <string name="app_name">Fridge Buddy</string>
 
 
-    <string name="titleAddItems">Add Items</string>
+    <string name="titleStorage">Storage</string>
     <string name="hintSearch">Search</string>
-    <string name="btnAdd">Add</string>
-    <string name="btnScan">Scan</string>
+    <string name="btnAdd">Add Food</string>
+    <string name="btnScan">Scan Food</string>
     <string name="scanPrompt">Scan a product\'s barcode</string>
 </resources>

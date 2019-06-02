@@ -17,7 +17,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:gravity="center_horizontal"
-        android:text="@string/titleAddItems"
+        android:text="@string/titleStorage"
         android:textColor="@android:color/black"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/editSearch"

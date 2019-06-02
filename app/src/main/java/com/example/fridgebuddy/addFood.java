@@ -29,6 +29,7 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
     ListView listView;
     Button btnAdd; //Adds food from plaintext into listView
     Button btnScan; // adds products by scanned barcode
+    //Button btnSelect; //Generates recipe based on
     ArrayAdapter<String> arrayAdapter;
 
     public ArrayList<String> foodList = new ArrayList<>();
@@ -62,6 +63,13 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
             }
         });
 
+        /*btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        */
         editAmount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             //This function listens to when user hits the "check mark" button
             //and inputs plaintext to listview

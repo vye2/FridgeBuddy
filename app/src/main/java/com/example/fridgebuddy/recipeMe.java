@@ -1,10 +1,12 @@
 package com.example.fridgebuddy;
 
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -45,6 +48,9 @@ public class recipeMe extends AppCompatActivity {
     ListView IngredList;
     Button btnRandomRecipe;
     Button btnRecipeMe;
+    boolean[] checkedItems;
+    String[] listItems;
+    ArrayList<Integer> mUserItems = new ArrayList<>();
 
 
     ArrayAdapter<String> arrayAdapter;
@@ -73,15 +79,91 @@ public class recipeMe extends AppCompatActivity {
         btnRecipeMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                relatedRecipeID();
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(recipeMe.this);
+                mBuilder.setTitle("RecipeMe with Selected Foods.");
+                mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int position, boolean isChecked) {
+                        if (isChecked){
+                            if (!mUserItems.contains(position)){
+                                mUserItems.add(position);
+                            }
+                            else {
+                                if (mUserItems.contains(position)){
+                                    mUserItems.remove(mUserItems.indexOf(position));
+                                }
+                            }
+                        }
+                    }
+                });//might need string array
+
+                mBuilder.setCancelable(false);
+                mBuilder.setPositiveButton("Generate", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (mUserItems.size() == 0){
+                            Toast.makeText(recipeMe.this, "Please select at least one food item.", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            String item = "";
+                            for (int i = 0; i < mUserItems.size(); i++) {
+                                item = item + listItems[mUserItems.get(i)];
+                                if (i != mUserItems.size() - 1) {
+                                    item = item + ",";
+                                }
+                            }
+                            System.out.println(item);
+                            relatedRecipeID(item);
+                        }
+                    }
+                });
+
+//                mBuilder.setNeutralButton("Select all", null);
+
+                mBuilder.setNeutralButton("Select all", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = 0; i < checkedItems.length; i++){
+                            checkedItems[i] = true;
+                            mUserItems.add(i);
+                        }
+                        btnRecipeMe.performClick();
+                        /*
+                        mUserItems.clear();
+                        String item = "";
+                        for (int i = 0; i < checkedItems.length; i++){
+                            item = item + listItems[i];
+                            if (i!= listItems.length - 1){
+                                item = item + ",";
+                            }
+                            mUserItems.add(i);
+                        }
+                        relatedRecipeID(item);
+                        */
+                    }
+                });
+
+                mBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = 0; i < checkedItems.length; i++){
+                            checkedItems[i] = false;
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+
             }
         });
 
     }
 
-    public void relatedRecipeID(){
+    public void relatedRecipeID(String selected){
         String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=5&ranking=1&ignorePantry=true&ingredients=";
-        url = url + db.getIngredList();
+        //url = url + db.getIngredList();
+        url = url + selected;
         System.out.println(url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
                 //JsonObjectRequest request = new JSONArrayRequest(Request.Method.GET,
@@ -224,5 +306,7 @@ public class recipeMe extends AppCompatActivity {
         IngredList = findViewById(R.id.IngredList);
         btnRandomRecipe = findViewById(R.id.BtnRandom);
         btnRecipeMe = findViewById(R.id.BtnRecipeMe);
+        checkedItems = new boolean[db.getIngredListArr().size()];
+        listItems = db.getIngredListArr().toArray(new String[0]);
     }
 }
