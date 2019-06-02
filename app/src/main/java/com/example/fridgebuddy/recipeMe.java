@@ -101,6 +101,12 @@ public class recipeMe extends AppCompatActivity {
                 mBuilder.setPositiveButton("Generate", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        mUserItems.clear();
+                        for (int i = 0; i < checkedItems.length; i++){
+                            if (checkedItems[i] == true){
+                                mUserItems.add(i);
+                            }
+                        }
                         if (mUserItems.size() == 0){
                             Toast.makeText(recipeMe.this, "Please select at least one food item.", Toast.LENGTH_LONG).show();
                         }
@@ -112,6 +118,8 @@ public class recipeMe extends AppCompatActivity {
                                     item = item + ",";
                                 }
                             }
+                            //mUserItems.clear();
+
                             System.out.println(item);
                             relatedRecipeID(item);
                         }
@@ -123,6 +131,7 @@ public class recipeMe extends AppCompatActivity {
                 mBuilder.setNeutralButton("Select all", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        mUserItems.clear();
                         for (int i = 0; i < checkedItems.length; i++){
                             checkedItems[i] = true;
                             mUserItems.add(i);
@@ -149,6 +158,7 @@ public class recipeMe extends AppCompatActivity {
                         for (int i = 0; i < checkedItems.length; i++){
                             checkedItems[i] = false;
                         }
+                        mUserItems.clear();
                         dialog.dismiss();
                     }
                 });
