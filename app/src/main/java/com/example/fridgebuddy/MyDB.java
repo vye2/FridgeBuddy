@@ -83,6 +83,7 @@ public class MyDB extends SQLiteOpenHelper {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
             String currentFood = cursor.getString(1) + ", " + cursor.getString(2) + ", " + cursor.getString(3);
+            //String currentFood = cursor.getString(1) + " ,  " + cursor.getString(2);
             foodList.add(currentFood);
             cursor.moveToNext();
         }

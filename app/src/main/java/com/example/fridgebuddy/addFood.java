@@ -30,9 +30,11 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
     Button btnAdd; //Adds food from plaintext into listView
     Button btnScan; // adds products by scanned barcode
     //Button btnSelect; //Generates recipe based on
-    ArrayAdapter<String> arrayAdapter;
+    //ArrayAdapter<String> arrayAdapter;
+    FoodListAdapter adapter;
 
-    public ArrayList<String> foodList = new ArrayList<>();
+    //public ArrayList<String> foodList = new ArrayList<>();
+    public ArrayList <String> foodListt = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,10 +99,15 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         db.addFood(foodName, amountFood);
         editSearch.getText().clear();
         editAmount.getText().clear();
-        foodList = db.getAllFoods();
-        Collections.sort(foodList);
-        arrayAdapter = new ArrayAdapter<>(addFood.this, android.R.layout.simple_list_item_1, foodList);
-        listView.setAdapter(arrayAdapter);
+        foodListt = db.getAllFoods();
+        Collections.sort(foodListt);
+        adapter = new FoodListAdapter(addFood.this, R.layout.adapter_view_layout, foodListt);
+        listView.setAdapter(adapter);
+
+        //foodList = db.getAllFoods();
+        //Collections.sort(foodList);
+        //arrayAdapter = new ArrayAdapter<>(addFood.this, android.R.layout.simple_list_item_1, foodList);
+        //listView.setAdapter(arrayAdapter);
     }
 
 
@@ -117,10 +124,14 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         btnAdd = findViewById(R.id.btnAdd);
         btnScan = findViewById(R.id.btnScan);
 
-        foodList = db.getAllFoods(); //On create, display list view of sorted foods.
-        Collections.sort(foodList);
-        arrayAdapter = new ArrayAdapter<>(addFood.this, android.R.layout.simple_list_item_1, foodList);
-        listView.setAdapter(arrayAdapter);
+        foodListt = db.getAllFoods();
+        Collections.sort(foodListt);
+        adapter = new FoodListAdapter(addFood.this, R.layout.adapter_view_layout, foodListt);
+        listView.setAdapter(adapter);
+        //foodList = db.getAllFoods(); //On create, display list view of sorted foods.
+        //Collections.sort(foodList);
+        //arrayAdapter = new ArrayAdapter<>(addFood.this, android.R.layout.simple_list_item_1, foodList);
+        //listView.setAdapter(arrayAdapter);
     }
 
     @Override
