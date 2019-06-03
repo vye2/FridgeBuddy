@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Fridge Buddy</string>
-
-
+    <string name="your_fridge">Your Fridge</string>
     <string name="titleStorage">Storage</string>
     <string name="hintSearch">Search</string>
     <string name="btnAdd">Add Food</string>
