@@ -50,6 +50,8 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
 
         init();
         requestQueue = Volley.newRequestQueue(this);
+        //Log.d("ScanCode", "OnCreate");
+        ///getFood("030000010204");
 
     }
 
@@ -69,22 +71,26 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
     @Override
     public void handleResult(Result result) {
         Toast.makeText(getApplicationContext(), result.getText(), Toast.LENGTH_SHORT).show();
+        getFood(result.getText());
         zXingScannerView.resumeCameraPreview(this);
     }
 
-    public void getFood(int UPCode){    /////////////call this function with UPC code. Should add food name and food amount to db.
-        String url = "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + String.valueOf(UPCode);
+    public void getFood(String UPCode){    /////////////call this function with UPC code. Should add food name and food amount to db.
+        String url = "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + UPCode;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            //System.out.println("TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
                             String foodName = response.getString("item_name");
-                            int numberServings = response.getInt("nf_servings_per_container");
-                            int servingSize = response.getInt("nf_serving_size_qty");
+                            foodName = foodName.replace(",", " ");
+                            double numberServings = response.getDouble("nf_servings_per_container");
+                            double servingSize = response.getDouble("nf_serving_size_qty");
                             String units = response.getString("nf_serving_size_unit");
-                            String foodAmount = response.getString(String.valueOf(numberServings * servingSize) + units);
+                            double servings = numberServings * servingSize;
+                            String foodAmount = (String.valueOf(servings)) + " " + units;
                             db.addFood(foodName, foodAmount);
 
                         } catch (JSONException e) {
