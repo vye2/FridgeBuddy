@@ -6,20 +6,19 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity{
 
     MyDB db;
+
+    private ArrayList<String> foodList = new ArrayList<>();
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter; // bridge between data and RecyclerView
     private RecyclerView.LayoutManager layoutManager;
-    Button add_food;
-    Button delete_food;
-    Button recipeMe;
-    ImageButton NotifButton;
+    private ImageButton notifButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,34 +26,18 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         init();
+    }
 
-//        addFood.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, addFood.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        recipeMe.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view){
-//                Intent intent = new Intent(MainActivity.this, recipeMe.class);
-//                startActivity(intent);
-//            }
-//        });
-
-        NotifButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Notifications.class);
-                startActivity(intent);
-            }
-        });
+    public void viewNotifications(View view) {
+        startActivity(new Intent(MainActivity.this, Notifications.class));
     }
 
     public void addFood(View view) {
         startActivity(new Intent(MainActivity.this, addFood.class));
+    }
+
+    public void recipeMe(View view) {
+        startActivity(new Intent(MainActivity.this, recipeMe.class));
     }
 
     @Override
@@ -65,6 +48,12 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onStart(){
         super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        // refresh the adapter
+        super.onResume();
     }
 
     @Override
@@ -80,29 +69,29 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        this.deleteDatabase(db.getDatabaseName());
+//        this.deleteDatabase(db.getDatabaseName());
     }
 
     private void init() {
         db = MyDB.getInstance(this);
-//        addFood = findViewById(R.id.StorageBtn);
-//        recipeMe = findViewById(R.id.RecipeMeButton);
-//        cardView = findViewById(R.id.card_view);
 
-        // just testing
-        ArrayList<FoodCard> foodList = new ArrayList<>();
-        foodList.add(new FoodCard("rice", "2 lbs.", "02/22/19"));
-        foodList.add(new FoodCard("apples", "5", "06/03/19"));
-        foodList.add(new FoodCard("bananas", "12 lbs.", "06/03/19"));
+        buildRecyclerView();
+
+        notifButton = findViewById(R.id.NotifButton);
+    }
+
+    public void buildRecyclerView() {
+        // initialize foodList with all foods in db before passing to adapter
+        foodList = db.getAllFoods();
+        Collections.sort(foodList);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        adapter = new FoodAdapter(foodList);
+
+        adapter = new FoodListAdapter(MainActivity.this, foodList);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-        NotifButton = findViewById(R.id.NotifButton);
     }
 }

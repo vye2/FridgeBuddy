@@ -11,7 +11,9 @@
     <string name="tagDate">MM/DD/YYYY</string>
 
     <string name="titleStorage">Storage</string>
-    <string name="btnAdd">Add Food</string>
+    <string name="btnAdd">Add Item</string>
+    <string name="btnRecipe">Recipe Me!</string>
+    <string name="btnDelete">Delete Item</string>
     <string name="btnScan">Scan Food</string>
     <string name="hintScan">Scan a product\'s barcode</string>
 </resources>

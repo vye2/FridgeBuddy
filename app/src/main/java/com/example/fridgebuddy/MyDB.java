@@ -33,7 +33,8 @@ public class MyDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String create = "CREATE TABLE " + TABLE_FOOD + "(" + ID_FOOD + " INTEGER PRIMARY KEY ," + FOOD_NAME + " TEXT," + AMOUNT_STORED + " TEXT," + DATE_STORED + " TEXT )";
+        String create = "CREATE TABLE " + TABLE_FOOD + "(" + ID_FOOD + " INTEGER PRIMARY KEY ," +
+                FOOD_NAME + " TEXT," + AMOUNT_STORED + " TEXT," + DATE_STORED + " TEXT )";
         db.execSQL(create);
     }
 
@@ -82,8 +83,8 @@ public class MyDB extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FOOD, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
-            String currentFood = cursor.getString(1) + ", " + cursor.getString(2) + ", " + cursor.getString(3);
-            //String currentFood = cursor.getString(1) + " ,  " + cursor.getString(2);
+            String currentFood = cursor.getString(1) + ", " + cursor.getString(2)
+                    + ", " + cursor.getString(3);
             foodList.add(currentFood);
             cursor.moveToNext();
         }

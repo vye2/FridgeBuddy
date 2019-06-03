@@ -115,6 +115,9 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
             }
         };
         requestQueue.add(request);
+
+        // return to MainActivity
+        startActivity(new Intent(ScanCode.this, MainActivity.class));
     }
 
     private void init() {

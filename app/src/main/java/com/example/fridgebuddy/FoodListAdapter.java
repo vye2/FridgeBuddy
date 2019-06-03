@@ -1,48 +1,62 @@
 package com.example.fridgebuddy;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FoodListAdapter extends ArrayAdapter<String> {
+public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodViewHolder> {
 
+    private ArrayList<String> foodList;
     private Context mContext;
-    int mResource;
 
-    public FoodListAdapter(Context context, int resource, ArrayList<String> objects) {
-        super(context, resource, objects);
+    public FoodListAdapter(Context context, ArrayList<String> foodList) {
         mContext = context;
-        mResource = resource;
+        this.foodList = foodList;
     }
 
-    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        String item = getItem(position);
+    public FoodListAdapter.FoodViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_card_view,parent,false);
+        FoodViewHolder viewHolder = new FoodViewHolder(v);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(FoodListAdapter.FoodViewHolder holder, int position) {
+        String item = foodList.get(position);
         List<String> splitList = Arrays.asList(item.split(","));
         String foodName = splitList.get(0);
-        String amountName = splitList.get(1);
-        String dateName = splitList.get(2);
+        String foodAmount = splitList.get(1);
+        String purchaseDate = splitList.get(2);
 
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        convertView = inflater.inflate(mResource, parent, false);
+        holder.food_name.setText(foodName);
+        holder.food_amount.setText(foodAmount);
+        holder.purchase_date.setText(purchaseDate);
+    }
 
-        TextView txtFoodName = convertView.findViewById(R.id.food_name);
-        TextView txtAmount = convertView.findViewById(R.id.food_amount);
-        TextView txtDate = convertView.findViewById(R.id.purchase_date);
+    @Override
+    public int getItemCount() {
+        return foodList.size();
+    }
 
-        txtFoodName.setText(foodName);
-        txtAmount.setText(amountName);
-        txtDate.setText(dateName);
+    public static class FoodViewHolder extends RecyclerView.ViewHolder {
 
-        return convertView;
+        protected TextView food_name;
+        protected TextView food_amount;
+        protected TextView purchase_date;
+
+        public FoodViewHolder(View itemView) {
+            super(itemView);
+            food_name = itemView.findViewById(R.id.food_name);
+            food_amount = itemView.findViewById(R.id.food_amount);
+            purchase_date = itemView.findViewById(R.id.purchase_date);
+        }
     }
 }
