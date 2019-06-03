@@ -101,8 +101,8 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         editAmount.getText().clear();
         foodListt = db.getAllFoods();
         Collections.sort(foodListt);
-        adapter = new FoodListAdapter(addFood.this, R.layout.adapter_view_layout, foodListt);
-        listView.setAdapter(adapter);
+//        adapter = new FoodListAdapter(addFood.this, R.layout.adapter_view_layout, foodListt);
+//        listView.setAdapter(adapter);
 
         //foodList = db.getAllFoods();
         //Collections.sort(foodList);
@@ -126,8 +126,8 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
 
         foodListt = db.getAllFoods();
         Collections.sort(foodListt);
-        adapter = new FoodListAdapter(addFood.this, R.layout.adapter_view_layout, foodListt);
-        listView.setAdapter(adapter);
+//        adapter = new FoodListAdapter(addFood.this, R.layout.adapter_view_layout, foodListt);
+//        listView.setAdapter(adapter);
         //foodList = db.getAllFoods(); //On create, display list view of sorted foods.
         //Collections.sort(foodList);
         //arrayAdapter = new ArrayAdapter<>(addFood.this, android.R.layout.simple_list_item_1, foodList);
