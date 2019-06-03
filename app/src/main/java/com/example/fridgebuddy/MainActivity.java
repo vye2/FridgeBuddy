@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import java.util.ArrayList;
 
@@ -15,11 +16,10 @@ public class MainActivity extends AppCompatActivity{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter; // bridge between data and RecyclerView
     private RecyclerView.LayoutManager layoutManager;
-//    Button addFood;
-//    Button recipeMe;
+    Button add_food;
+    Button delete_food;
+    Button recipeMe;
     ImageButton NotifButton;
-//    FoodListAdapter adapter = null;
-    public ArrayList<FoodCard> foodList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+    }
+
+    public void addFood(View view) {
+        startActivity(new Intent(MainActivity.this, addFood.class));
     }
 
     @Override
@@ -86,9 +90,10 @@ public class MainActivity extends AppCompatActivity{
 //        cardView = findViewById(R.id.card_view);
 
         // just testing
-        foodList.add(new FoodCard("rice", "2", "02/22/19"));
+        ArrayList<FoodCard> foodList = new ArrayList<>();
+        foodList.add(new FoodCard("rice", "2 lbs.", "02/22/19"));
         foodList.add(new FoodCard("apples", "5", "06/03/19"));
-        foodList.add(new FoodCard("rice", "2", "06/03/19"));
+        foodList.add(new FoodCard("bananas", "12 lbs.", "06/03/19"));
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -100,5 +105,4 @@ public class MainActivity extends AppCompatActivity{
 
         NotifButton = findViewById(R.id.NotifButton);
     }
-
 }
