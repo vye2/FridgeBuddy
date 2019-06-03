@@ -35,9 +35,9 @@ public class FoodListAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-        TextView txtFoodName = (TextView) convertView.findViewById(R.id.txtFoodName);
-        TextView txtAmount = (TextView) convertView.findViewById(R.id.textAmount);
-        TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
+        TextView txtFoodName = convertView.findViewById(R.id.food_name);
+        TextView txtAmount = convertView.findViewById(R.id.food_amount);
+        TextView txtDate = convertView.findViewById(R.id.purchase_date);
 
         txtFoodName.setText(foodName);
         txtAmount.setText(amountName);
