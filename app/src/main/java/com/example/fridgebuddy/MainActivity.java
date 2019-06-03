@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity{
 
     private void init() {
         db = MyDB.getInstance(this);
-        addFood = findViewById(R.id.StorageBtn);
-        recipeMe = findViewById(R.id.RecipeMeButton);
+//        addFood = findViewById(R.id.StorageBtn);
+//        recipeMe = findViewById(R.id.RecipeMeButton);
         NotifButton = findViewById(R.id.NotifButton);
     }
 
