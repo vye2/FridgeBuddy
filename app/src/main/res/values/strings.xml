@@ -1,9 +1,17 @@
 <resources>
     <string name="app_name">Fridge Buddy</string>
-    <string name="your_fridge">Your Fridge</string>
+    <string name="yourFridge">Your Fridge</string>
+    <string name="hintSearch">Search fridge</string>
+    <string name="hintAddItem">Add an item</string>
+    <string name="hintEnterName">Enter product name</string>
+    <string name="hintEnterAmount">Enter amount</string>
+    <string name="tagFoodName">Food name</string>
+    <string name="tagFoodAmount">Amount</string>
+    <string name="tagPurchased">Purchased: </string>
+    <string name="tagDate">MM/DD/YYYY</string>
+
     <string name="titleStorage">Storage</string>
-    <string name="hintSearch">Search</string>
     <string name="btnAdd">Add Food</string>
     <string name="btnScan">Scan Food</string>
-    <string name="scanPrompt">Scan a product\'s barcode</string>
+    <string name="hintScan">Scan a product\'s barcode</string>
 </resources>
