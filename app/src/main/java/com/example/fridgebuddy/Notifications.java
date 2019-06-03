@@ -36,11 +36,11 @@ public class Notifications extends AppCompatActivity {
             String foodName = splitList.get(0);
             String dateName = splitList.get(1);
             try {
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
                 Date date = new Date();
                 String date1 = dateFormat.format(date);
-                Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(date1);
-                Date date3 = new SimpleDateFormat("yyyy-MM-dd").parse(dateName);
+                Date date2 = new SimpleDateFormat("yyyy/MM/dd").parse(date1);
+                Date date3 = new SimpleDateFormat("yyyy/MM/dd").parse(dateName);
 
                 DecimalFormat crunchifyFormatter = new DecimalFormat("###");
                 long diff = date2.getTime() - date3.getTime();

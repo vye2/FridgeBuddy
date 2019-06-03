@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MyDB extends SQLiteOpenHelper {
 
@@ -24,6 +26,7 @@ public class MyDB extends SQLiteOpenHelper {
     private static String FOOD_NAME = "NAME_FOOD";
     private static String AMOUNT_STORED = "STORED_AMOUNT";
     private static String DATE_STORED = "STORED_DATE";
+    Random rand = new Random();
 
 
     public MyDB(Context context){
@@ -61,16 +64,40 @@ public class MyDB extends SQLiteOpenHelper {
     /**
      * Inserts a food item into the db
      */
-    public void addFood(String foodName, String amountStored){
+    public void populate(String foodName, String amountStored, String date){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         values.put(FOOD_NAME, foodName);
         values.put(AMOUNT_STORED, amountStored);
         values.put(DATE_STORED, date);
 
         db.insert(TABLE_FOOD, null, values);
         db.close();
+    }
+
+    /**
+     * Inserts a food item into the db
+     */
+    public void addFood(String foodName, String amountStored){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+        values.put(FOOD_NAME, foodName);
+        values.put(AMOUNT_STORED, amountStored);
+        values.put(DATE_STORED, date);
+
+        db.insert(TABLE_FOOD, null, values);
+        db.close();
+    }
+
+    /**
+     * Remove a food item from the db
+     */
+
+    public void removeFood(String foodName){
+        SQLiteDatabase db = getWritableDatabase();
+        String del = "DELETE FROM " + TABLE_FOOD + " WHERE " + FOOD_NAME + " = '" + foodName + "'";
+        db.execSQL(del);
     }
 
     /**
@@ -89,6 +116,22 @@ public class MyDB extends SQLiteOpenHelper {
         }
         cursor.close();
         return foodList;
+    }
+
+    public ArrayList<String> getTopXFoods(String x){
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<String> foodList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FOOD + " LIMIT 0, " + x, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            String currentFood = cursor.getString(1) + ", " + cursor.getString(3);
+            //String currentFood = cursor.getString(1) + " ,  " + cursor.getString(2);
+            foodList.add(currentFood);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return foodList;
+
     }
 
     /**
