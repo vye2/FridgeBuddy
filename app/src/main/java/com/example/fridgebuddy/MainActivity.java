@@ -5,8 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
+import android.widget.SearchView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -16,9 +22,8 @@ public class MainActivity extends AppCompatActivity{
 
     private ArrayList<String> foodList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter; // bridge between data and RecyclerView
+    private FoodListAdapter adapter; // bridge between data and RecyclerView
     private RecyclerView.LayoutManager layoutManager;
-    private ImageButton notifButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +80,6 @@ public class MainActivity extends AppCompatActivity{
     private void init() {
         db = MyDB.getInstance(this);
 
-        buildRecyclerView();
-
-        notifButton = findViewById(R.id.NotifButton);
-    }
-
-    public void buildRecyclerView() {
         // initialize foodList with all foods in db before passing to adapter
         foodList = db.getAllFoods();
         Collections.sort(foodList);
@@ -93,5 +92,32 @@ public class MainActivity extends AppCompatActivity{
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // inflate search bar
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.search_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.searchBar);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        // hide search button as everything is done in real time anyway
+//        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return true;
     }
 }
