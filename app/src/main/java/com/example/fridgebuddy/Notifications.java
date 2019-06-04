@@ -18,6 +18,8 @@ public class Notifications extends AppCompatActivity {
     ListView expireList;
     ArrayList<String> listOfOld = new ArrayList<String>();
     ArrayList<String> topList = new ArrayList<String>();
+
+    
     ArrayAdapter<String> adapter;
     MyDB db;
 
