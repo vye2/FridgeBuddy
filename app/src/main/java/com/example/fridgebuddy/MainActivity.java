@@ -1,12 +1,17 @@
 package com.example.fridgebuddy;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -20,10 +25,92 @@ public class MainActivity extends AppCompatActivity{
     private RecyclerView.LayoutManager layoutManager;
     private ImageButton notifButton;
 
+    Button btnDelete;
+
+    boolean[] checkedItems;
+    String[] listItems;
+    ArrayList<Integer> mUserItems = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        btnDelete = findViewById(R.id.btn_delete);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+                mBuilder.setTitle("Select Foods to Delete.");
+                mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int position, boolean isChecked) {
+                        if (isChecked){
+                            if (!mUserItems.contains(position)){
+                                mUserItems.add(position);
+                            }
+                            else {
+                                if (mUserItems.contains(position)){
+                                    mUserItems.remove(mUserItems.indexOf(position));
+                                }
+                            }
+                        }
+                    }
+                });//might need string array
+
+                mBuilder.setCancelable(false);
+                mBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mUserItems.clear();
+                        for (int i = 0; i < checkedItems.length; i++){
+                            if (checkedItems[i] == true){
+                                mUserItems.add(i);
+                            }
+                        }
+                        if (mUserItems.size() == 0){
+                            Toast.makeText(MainActivity.this, "Please select at least one food item.", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            for (int i = 0; i < mUserItems.size(); i++) {
+                                db.removeFood(listItems[mUserItems.get(i)]);
+                            }
+                        }
+
+                        listItems = db.getIngredListArr().toArray(new String[0]);
+                        buildRecyclerView();
+
+                    }
+                });
+
+                mBuilder.setNeutralButton("Select all", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mUserItems.clear();
+                        for (int i = 0; i < checkedItems.length; i++){
+                            checkedItems[i] = true;
+                            mUserItems.add(i);
+                        }
+                        btnDelete.performClick();
+                    }
+                });
+
+                mBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = 0; i < checkedItems.length; i++){
+                            checkedItems[i] = false;
+                        }
+                        mUserItems.clear();
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+
+            }
+        });
 
         init();
     }
@@ -53,7 +140,12 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         // refresh the adapter
+        checkedItems = new boolean[db.getIngredListArr().size()];
+        listItems = db.getIngredListArr().toArray(new String[0]);
+        buildRecyclerView();
+
         super.onResume();
+
     }
 
     @Override
@@ -74,10 +166,12 @@ public class MainActivity extends AppCompatActivity{
 
     private void init() {
         db = MyDB.getInstance(this);
-
         buildRecyclerView();
-
+        btnDelete = findViewById(R.id.btn_delete);
         notifButton = findViewById(R.id.NotifButton);
+
+        checkedItems = new boolean[db.getIngredListArr().size()];
+        listItems = db.getIngredListArr().toArray(new String[0]);
     }
 
     public void buildRecyclerView() {
