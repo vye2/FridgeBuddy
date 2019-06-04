@@ -1,20 +1,8 @@
 package com.example.fridgebuddy;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
-import android.net.Uri;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,13 +13,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.zxing.Result;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,9 +35,6 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
 
         init();
         requestQueue = Volley.newRequestQueue(this);
-        //Log.d("ScanCode", "OnCreate");
-        getFood("028400047913");
-
     }
 
     @Override
@@ -83,7 +65,6 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            //System.out.println("TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
                             String foodName = response.getString("item_name");
                             foodName = foodName.replace(",", " ");
                             foodName = foodName.replace("\'", "");
@@ -97,7 +78,6 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -118,7 +98,7 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
         requestQueue.add(request);
 
         // return to MainActivity
-        //startActivity(new Intent(ScanCode.this, MainActivity.class));
+        startActivity(new Intent(ScanCode.this, MainActivity.class));
     }
 
     private void init() {
