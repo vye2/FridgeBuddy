@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity{
     private RecyclerView recyclerView;
     private FoodListAdapter adapter; // bridge between data and RecyclerView
     private RecyclerView.LayoutManager layoutManager;
-    private ImageButton notifButton;
 
     Button btnDelete;
 
@@ -169,7 +168,6 @@ public class MainActivity extends AppCompatActivity{
         db = MyDB.getInstance(this);
         buildRecyclerView();
         btnDelete = findViewById(R.id.btn_delete);
-        notifButton = findViewById(R.id.NotifButton);
 
         checkedItems = new boolean[db.getIngredListArr().size()];
         listItems = db.getIngredListArr().toArray(new String[0]);
