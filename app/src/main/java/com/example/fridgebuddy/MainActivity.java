@@ -141,6 +141,8 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         // refresh the adapter
+        db = MyDB.getInstance(this);
+
         checkedItems = new boolean[db.getIngredListArr().size()];
         listItems = db.getIngredListArr().toArray(new String[0]);
         buildRecyclerView();

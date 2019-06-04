@@ -51,7 +51,7 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
         init();
         requestQueue = Volley.newRequestQueue(this);
         //Log.d("ScanCode", "OnCreate");
-        ///getFood("030000010204");
+        getFood("028400047913");
 
     }
 
@@ -86,6 +86,7 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
                             //System.out.println("TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
                             String foodName = response.getString("item_name");
                             foodName = foodName.replace(",", " ");
+                            foodName = foodName.replace("\'", "");
                             double numberServings = response.getDouble("nf_servings_per_container");
                             double servingSize = response.getDouble("nf_serving_size_qty");
                             String units = response.getString("nf_serving_size_unit");
@@ -117,7 +118,7 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
         requestQueue.add(request);
 
         // return to MainActivity
-        startActivity(new Intent(ScanCode.this, MainActivity.class));
+        //startActivity(new Intent(ScanCode.this, MainActivity.class));
     }
 
     private void init() {
