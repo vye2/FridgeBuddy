@@ -16,4 +16,7 @@
     <string name="btnDelete">Delete Item</string>
     <string name="btnScan">Scan Food</string>
     <string name="hintScan">Scan a product\'s barcode</string>
+    
+    <string name="hintEnterFood">Enter food name (e.g apples, rice)</string>
+    <string name="hintAmount">Enter amount (e.g 50g, 1 cup, 4 Liters)</string>
 </resources>

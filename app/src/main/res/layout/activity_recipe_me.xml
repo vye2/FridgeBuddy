@@ -49,14 +49,28 @@
             android:id="@+id/BtnRandom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
             android:layout_weight="1"
+            android:background="@drawable/view_rounded"
             android:text="Random Recipe" />
 
         <Button
             android:id="@+id/BtnRecipeMe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
             android:layout_weight="1"
+            app:layout_constraintTop_toTopOf="@+id/BtnRandom"
+            app:layout_constraintBottom_toBottomOf="@+id/BtnRandom"
+            android:background="@drawable/view_rounded"
             android:text="Recipe Me" />
     </LinearLayout>
 

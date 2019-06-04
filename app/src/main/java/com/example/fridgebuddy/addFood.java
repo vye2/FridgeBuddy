@@ -1,27 +1,21 @@
 package com.example.fridgebuddy;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 public class addFood extends AppCompatActivity implements View.OnKeyListener{
 
@@ -31,14 +25,7 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
     ListView listView;
     Button btnAdd; //Adds food from plaintext into listView
     Button btnScan; // adds products by scanned barcode
-    Button btnDelete;
-    //Button btnSelect; //Generates recipe based on
-    //ArrayAdapter<String> arrayAdapter;
-    FoodListAdapter adapter;
 
-
-
-    //public ArrayList<String> foodList = new ArrayList<>();
     public ArrayList <String> foodListt = new ArrayList<>();
 
     @Override
@@ -70,13 +57,6 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
             }
         });
 
-        /*btnSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        */
         editAmount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             //This function listens to when user hits the "check mark" button
             //and inputs plaintext to listview
@@ -106,13 +86,6 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         editAmount.getText().clear();
         foodListt = db.getAllFoods();
         Collections.sort(foodListt);
-//        adapter = new FoodListAdapter(addFood.this, R.layout.adapter_view_layout, foodListt);
-//        listView.setAdapter(adapter);
-
-        //foodList = db.getAllFoods();
-        //Collections.sort(foodList);
-        //arrayAdapter = new ArrayAdapter<>(addFood.this, android.R.layout.simple_list_item_1, foodList);
-        //listView.setAdapter(arrayAdapter);
     }
 
 
@@ -125,17 +98,10 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         db = MyDB.getInstance(this);
         editSearch = findViewById(R.id.editSearch);
         editAmount = findViewById(R.id.editAmount);
-        listView = findViewById(R.id.listView);
         btnAdd = findViewById(R.id.btnAdd);
         btnScan = findViewById(R.id.btnScan);
         foodListt = db.getAllFoods();
         Collections.sort(foodListt);
-//        adapter = new FoodListAdapter(addFood.this, R.layout.adapter_view_layout, foodListt);
-//        listView.setAdapter(adapter);
-        //foodList = db.getAllFoods(); //On create, display list view of sorted foods.
-        //Collections.sort(foodList);
-        //arrayAdapter = new ArrayAdapter<>(addFood.this, android.R.layout.simple_list_item_1, foodList);
-        //listView.setAdapter(arrayAdapter);
     }
 
     @Override
