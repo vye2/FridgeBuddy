@@ -5,12 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
@@ -90,22 +85,7 @@ public class MainActivity extends AppCompatActivity{
 
         adapter = new FoodListAdapter(MainActivity.this, foodList);
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // inflate search bar
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.search_menu, menu);
-
-        MenuItem searchItem = menu.findItem(R.id.searchBar);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-
-        // hide search button as everything is done in real time anyway
-//        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
+        SearchView searchView = findViewById(R.id.searchBar);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -118,6 +98,8 @@ public class MainActivity extends AppCompatActivity{
                 return false;
             }
         });
-        return true;
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 }
