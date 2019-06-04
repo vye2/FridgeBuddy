@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import android.widget.SearchView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity{
 
     private ArrayList<String> foodList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter; // bridge between data and RecyclerView
+    private FoodListAdapter adapter; // bridge between data and RecyclerView
     private RecyclerView.LayoutManager layoutManager;
     private ImageButton notifButton;
 
@@ -145,7 +147,6 @@ public class MainActivity extends AppCompatActivity{
         buildRecyclerView();
 
         super.onResume();
-
     }
 
     @Override
@@ -184,6 +185,20 @@ public class MainActivity extends AppCompatActivity{
         layoutManager = new LinearLayoutManager(this);
 
         adapter = new FoodListAdapter(MainActivity.this, foodList);
+
+        SearchView searchView = findViewById(R.id.searchBar);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
