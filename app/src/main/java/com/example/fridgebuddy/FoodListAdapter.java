@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A custom adapter for the MainActivity's RecyclerView.
+ */
 public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodViewHolder>
         implements Filterable{
 
@@ -70,7 +73,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
         return foodFilter;
     }
 
-    // filter for search
+    // filter the view for search via user input
     private Filter foodFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -97,7 +100,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
             return results;
         }
 
-        // displays only filtered items in the RecycleView
+        // displays only filtered items in the RecyclerView
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             foodList.clear();

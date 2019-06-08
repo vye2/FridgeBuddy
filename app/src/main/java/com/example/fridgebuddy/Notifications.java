@@ -13,17 +13,17 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Displays the top five oldest items in the fridge.
+ */
 public class Notifications extends AppCompatActivity {
 
     ListView expireList;
     ArrayList<String> listOfOld = new ArrayList<String>();
     ArrayList<String> topList = new ArrayList<String>();
-
     
     ArrayAdapter<String> adapter;
     MyDB db;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,24 +44,15 @@ public class Notifications extends AppCompatActivity {
                 Date date2 = new SimpleDateFormat("yyyy/MM/dd").parse(date1);
                 Date date3 = new SimpleDateFormat("yyyy/MM/dd").parse(dateName);
 
-                DecimalFormat crunchifyFormatter = new DecimalFormat("###");
+//                DecimalFormat crunchifyFormatter = new DecimalFormat("###");
                 long diff = date2.getTime() - date3.getTime();
                 long diffDays = (int) (diff / (24*60*60*1000));
                 listOfOld.add(foodName + " has been stored for " + diffDays + " days.");
-
-                //String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
             } catch (Exception e){
                 e.printStackTrace();
             }
         }
-
-
-        //listOfExpired.add("Whole Milk has been stored for 4 years 1 days");
-        //listOfExpired.add("Vanilla Ice Cream has been stored for 6 months 11 days");
-        //listOfExpired.add("Green Onion has been stored for 3 months 3 days");
-
-
     }
 
     private void init(){
@@ -72,6 +63,5 @@ public class Notifications extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listOfOld);
 
         expireList.setAdapter(adapter);
-
     }
 }

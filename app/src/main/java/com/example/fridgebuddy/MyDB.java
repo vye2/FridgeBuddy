@@ -13,6 +13,9 @@ import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Initializes an SQLite database and contains methods for the modification of said db.
+ */
 public class MyDB extends SQLiteOpenHelper {
 
     private static MyDB sInstance;
@@ -26,8 +29,6 @@ public class MyDB extends SQLiteOpenHelper {
     private static String FOOD_NAME = "NAME_FOOD";
     private static String AMOUNT_STORED = "STORED_AMOUNT";
     private static String DATE_STORED = "STORED_DATE";
-    Random rand = new Random();
-
 
     public MyDB(Context context){
         super(context, DB_NAME, null, VERSION);

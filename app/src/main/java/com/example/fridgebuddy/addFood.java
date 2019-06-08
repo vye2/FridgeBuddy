@@ -11,22 +11,17 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class addFood extends AppCompatActivity implements View.OnKeyListener{
 
     MyDB db;
     EditText editSearch; //editSearch is the plaintext where user enters food name
     EditText editAmount;
-    ListView listView;
-    Button btnAdd; //Adds food from plaintext into listView
+    Button btnAdd; // adds food from plaintext into db
     Button btnScan; // adds products by scanned barcode
-
-    public ArrayList <String> foodListt = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +30,13 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
 
         init();
 
-        // adds user input to listView
+        // adds user input to db
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String s = editSearch.getText().toString();
                 String t = editAmount.getText().toString();
-                inputListView(s, t);
+                insertToDB(s, t);
             }
         });
 
@@ -65,7 +60,7 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
                     //do what you want on the press of 'done'
                     String s = editSearch.getText().toString();
                     String t = editAmount.getText().toString();
-                    inputListView(s, t);
+                    insertToDB(s, t);
                     return true;
                 }
                 return false;
@@ -73,9 +68,11 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         });
     }
 
-    //Helper function to input a non empty plaintext string to listview in alphabetical order
-    public void inputListView (String foodName, String amountFood){
-        //Helper function to input a non empty plaintext string to listview in alphabetical order
+    /**
+     * Helper function to input a non-empty plaintext string to listview in alphabetical order
+     */
+    public void insertToDB (String foodName, String amountFood){
+        //Helper function to input a non empty plaintext string to db in alphabetical order
         if (foodName.equals("") && amountFood.equals("")){
             Toast.makeText(this, "Please enter a food and amount.", Toast.LENGTH_LONG).show();
             return;
@@ -84,8 +81,6 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         Toast.makeText(this, "You have stored " + amountFood + " " + foodName, Toast.LENGTH_LONG).show();
         editSearch.getText().clear();
         editAmount.getText().clear();
-        foodListt = db.getAllFoods();
-        Collections.sort(foodListt);
     }
 
 
@@ -100,8 +95,6 @@ public class addFood extends AppCompatActivity implements View.OnKeyListener{
         editAmount = findViewById(R.id.editAmount);
         btnAdd = findViewById(R.id.btnAdd);
         btnScan = findViewById(R.id.btnScan);
-        foodListt = db.getAllFoods();
-        Collections.sort(foodListt);
     }
 
     @Override

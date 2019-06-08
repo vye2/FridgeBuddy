@@ -1,6 +1,5 @@
 package com.example.fridgebuddy;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -22,6 +21,10 @@ import java.util.Map;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+/**
+ * Implements a scanner to scan UPC codes (barcodes). Processes UPC codes and adds food names and
+ * amount to the db.
+ */
 public class ScanCode extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private ZXingScannerView zXingScannerView;
@@ -57,7 +60,11 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
         zXingScannerView.resumeCameraPreview(this);
     }
 
-    public void getFood(String UPCode){    /////////////call this function with UPC code. Should add food name and food amount to db.
+    /**
+     * Calls this function with the UPC code and adds the resulting food name and amount to the db.
+     * @param UPCode the code to process
+     */
+    public void getFood(String UPCode){
         String url = "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + UPCode;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 url, null,
@@ -97,8 +104,8 @@ public class ScanCode extends AppCompatActivity implements ZXingScannerView.Resu
         };
         requestQueue.add(request);
 
-        // return to MainActivity
-        startActivity(new Intent(ScanCode.this, MainActivity.class));
+        // don't return to MainActivity immediately
+        // allow user to scan multiple items quickly
     }
 
     private void init() {

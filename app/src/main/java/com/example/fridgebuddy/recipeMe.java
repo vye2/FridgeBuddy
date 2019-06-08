@@ -40,6 +40,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Retrieves a recipe based on the user's chosen food items.
+ */
 public class recipeMe extends AppCompatActivity {
 
     MyDB db;
@@ -51,7 +54,6 @@ public class recipeMe extends AppCompatActivity {
     boolean[] checkedItems;
     String[] listItems;
     ArrayList<Integer> mUserItems = new ArrayList<>();
-
 
     ArrayAdapter<String> arrayAdapter;
 
@@ -84,33 +86,31 @@ public class recipeMe extends AppCompatActivity {
                 mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int position, boolean isChecked) {
-                        if (isChecked){
-                            if (!mUserItems.contains(position)){
+                        if (isChecked) {
+                            if (!mUserItems.contains(position)) {
                                 mUserItems.add(position);
-                            }
-                            else {
-                                if (mUserItems.contains(position)){
+                            } else {
+                                if (mUserItems.contains(position)) {
                                     mUserItems.remove(mUserItems.indexOf(position));
                                 }
                             }
                         }
                     }
-                });//might need string array
+                });
 
                 mBuilder.setCancelable(false);
                 mBuilder.setPositiveButton("Generate", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mUserItems.clear();
-                        for (int i = 0; i < checkedItems.length; i++){
-                            if (checkedItems[i] == true){
+                        for (int i = 0; i < checkedItems.length; i++) {
+                            if (checkedItems[i] == true) {
                                 mUserItems.add(i);
                             }
                         }
-                        if (mUserItems.size() == 0){
+                        if (mUserItems.size() == 0) {
                             Toast.makeText(recipeMe.this, "Please select at least one food item.", Toast.LENGTH_LONG).show();
-                        }
-                        else {
+                        } else {
                             String item = "";
                             for (int i = 0; i < mUserItems.size(); i++) {
                                 item = item + listItems[mUserItems.get(i)];
@@ -118,44 +118,28 @@ public class recipeMe extends AppCompatActivity {
                                     item = item + ",";
                                 }
                             }
-                            //mUserItems.clear();
-
                             System.out.println(item);
                             relatedRecipeID(item);
                         }
                     }
                 });
 
-//                mBuilder.setNeutralButton("Select all", null);
-
                 mBuilder.setNeutralButton("Select all", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mUserItems.clear();
-                        for (int i = 0; i < checkedItems.length; i++){
+                        for (int i = 0; i < checkedItems.length; i++) {
                             checkedItems[i] = true;
                             mUserItems.add(i);
                         }
                         btnRecipeMe.performClick();
-                        /*
-                        mUserItems.clear();
-                        String item = "";
-                        for (int i = 0; i < checkedItems.length; i++){
-                            item = item + listItems[i];
-                            if (i!= listItems.length - 1){
-                                item = item + ",";
-                            }
-                            mUserItems.add(i);
-                        }
-                        relatedRecipeID(item);
-                        */
                     }
                 });
 
                 mBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        for (int i = 0; i < checkedItems.length; i++){
+                        for (int i = 0; i < checkedItems.length; i++) {
                             checkedItems[i] = false;
                         }
                         mUserItems.clear();
@@ -164,19 +148,15 @@ public class recipeMe extends AppCompatActivity {
                 });
                 AlertDialog mDialog = mBuilder.create();
                 mDialog.show();
-
             }
         });
-
     }
 
-    public void relatedRecipeID(String selected){
+    public void relatedRecipeID(String selected) {
         String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=5&ranking=1&ignorePantry=true&ingredients=";
-        //url = url + db.getIngredList();
         url = url + selected;
         System.out.println(url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
-                //JsonObjectRequest request = new JSONArrayRequest(Request.Method.GET,
                 url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -198,11 +178,10 @@ public class recipeMe extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                     }
-                })
-        {
+                }) {
             @Override
-            public Map<String, String> getHeaders(){
-                Map<String, String > params = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com");
                 params.put("X-RapidAPI-Key", "fc6fbf058emsh24e3e2cb5fcda03p12ffd1jsn451c757b8d26");
                 return params;
@@ -211,7 +190,7 @@ public class recipeMe extends AppCompatActivity {
         requestQueue.add(request);
     }
 
-    public void getRecipe(int recipeID){
+    public void getRecipe(int recipeID) {
         System.out.println("After: " + recipeID);
         String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/" + recipeID + "/information";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
@@ -226,10 +205,10 @@ public class recipeMe extends AppCompatActivity {
                             Instructions.setText(instr);
 
                             JSONArray extendedIngredients = response.getJSONArray("extendedIngredients");
-                            for (int i = 0; i < extendedIngredients.length(); i++){
+                            for (int i = 0; i < extendedIngredients.length(); i++) {
                                 JSONObject ingredI = extendedIngredients.getJSONObject(i);
                                 String originalString = ingredI.getString("originalString");
-                                if (!originalString.equals("")){
+                                if (!originalString.equals("")) {
                                     ingredientsList.add(originalString);
                                 }
                             }
@@ -246,11 +225,10 @@ public class recipeMe extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                     }
-                })
-        {
+                }) {
             @Override
-            public Map<String, String> getHeaders(){
-                Map<String, String > params = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com");
                 params.put("X-RapidAPI-Key", "fc6fbf058emsh24e3e2cb5fcda03p12ffd1jsn451c757b8d26");
                 return params;
@@ -259,7 +237,7 @@ public class recipeMe extends AppCompatActivity {
         requestQueue.add(request);
     }
 
-    public void randRecipe(){
+    public void randRecipe() {
         String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?number=1";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
@@ -276,10 +254,10 @@ public class recipeMe extends AppCompatActivity {
                             Instructions.setText(instr);
 
                             JSONArray extendedIngredients = firstRecipe.getJSONArray("extendedIngredients");
-                            for (int i = 0; i < extendedIngredients.length(); i++){
+                            for (int i = 0; i < extendedIngredients.length(); i++) {
                                 JSONObject ingredI = extendedIngredients.getJSONObject(i);
                                 String originalString = ingredI.getString("originalString");
-                                if (!originalString.equals("")){
+                                if (!originalString.equals("")) {
                                     ingredientsList.add(originalString);
                                 }
                             }
@@ -296,11 +274,10 @@ public class recipeMe extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                     }
-                })
-        {
+                }) {
             @Override
-            public Map<String, String> getHeaders(){
-                Map<String, String > params = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com");
                 params.put("X-RapidAPI-Key", "fc6fbf058emsh24e3e2cb5fcda03p12ffd1jsn451c757b8d26");
                 return params;

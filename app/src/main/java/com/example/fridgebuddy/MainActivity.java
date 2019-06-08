@@ -16,6 +16,10 @@ import android.widget.SearchView;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * The MainActivity displays a list of cards that represent the items currently stored in the user's
+ * refrigerator.
+ */
 public class MainActivity extends AppCompatActivity{
 
     MyDB db;
@@ -57,7 +61,7 @@ public class MainActivity extends AppCompatActivity{
                             }
                         }
                     }
-                });//might need string array
+                });
 
                 mBuilder.setCancelable(false);
                 mBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -162,30 +166,28 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onDestroy(){
         super.onDestroy();
-//        this.deleteDatabase(db.getDatabaseName());
     }
 
     private void init() {
         db = MyDB.getInstance(this);
 
-        db.populate("Olive Oil", "1 Liter", "2018/03/19");
-        db.populate("Eggs", "12", "2018/06/03");
-        db.populate("Beef Sirloin", "2 pounds", "2018/06/15");
-        db.populate("Carrot", "16 ounces", "2019/02/05");
-        db.populate("Oatmeal", "48 ounces", "2019/02/08");
-        db.populate("Onion", "200 grams", "2019/06/01");
-        db.populate("Milk", "1 gallon", "2019/05/25");
-        db.populate("Rice", "50 pounds", "2019/01/01");
-        db.populate("Rice Noodles", "24 ounces", "2019/04/19");
-        db.populate("Fish Sauce", "1 bottle", "2019/02/14");
-        db.populate("Star Anise", "16 ounces", "2019/01/08");
-        db.populate("salt", "16 ounces", "2019/03/17");
-        db.populate("ginger", "400 grams", "2019/03/07");
-        
+        // test population for demo
+//        db.populate("Olive Oil", "1 Liter", "2018/03/19");
+//        db.populate("Eggs", "12", "2018/06/03");
+//        db.populate("Beef Sirloin", "2 pounds", "2018/06/15");
+//        db.populate("Carrot", "16 ounces", "2019/02/05");
+//        db.populate("Oatmeal", "48 ounces", "2019/02/08");
+//        db.populate("Onion", "200 grams", "2019/06/01");
+//        db.populate("Milk", "1 gallon", "2019/05/25");
+//        db.populate("Rice", "50 pounds", "2019/01/01");
+//        db.populate("Rice Noodles", "24 ounces", "2019/04/19");
+//        db.populate("Fish Sauce", "1 bottle", "2019/02/14");
+//        db.populate("Star Anise", "16 ounces", "2019/01/08");
+//        db.populate("salt", "16 ounces", "2019/03/17");
+//        db.populate("ginger", "400 grams", "2019/03/07");
+
         buildRecyclerView();
         btnDelete = findViewById(R.id.btn_delete);
-
-
 
         checkedItems = new boolean[db.getIngredListArr().size()];
         listItems = db.getIngredListArr().toArray(new String[0]);
@@ -193,6 +195,9 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+    /**
+     * (Re)builds the RecyclerView that holds all the food cards to display.
+     */
     public void buildRecyclerView() {
         // initialize foodList with all foods in db before passing to adapter
         foodList = db.getAllFoods();
